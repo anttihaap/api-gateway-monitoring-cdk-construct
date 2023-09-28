@@ -66,7 +66,7 @@ const alarmMetrics = (apiGateway: ApiGateway) => {
     const { methods, ...alarmMetricPropsWithoutMethod } = alarmMetric;
 
     const sumMethodMetrics = methods.map((method) =>
-      createMethodMetricDataQueryProperty(`Sum_${method}`, false, {
+      createMethodMetricDataQueryProperty(`sum_${method}`, false, {
         ...alarmMetricPropsWithoutMethod,
         method,
         statistics: "Sum",
@@ -80,7 +80,7 @@ const alarmMetrics = (apiGateway: ApiGateway) => {
       {
         id: "m",
         returnData: true,
-        expression: `${methods.map((method) => `Sum_${method}`).join(" + ")}`,
+        expression: `${methods.map((method) => `sum_${method}`).join(" + ")}`,
       },
       ...sumMethodMetrics,
     ];
@@ -101,15 +101,15 @@ const alarmMetrics = (apiGateway: ApiGateway) => {
     const { methods, ...alarmMetricPropsWithoutMethods } = alarmMetricProps;
 
     const avgMethodMetrics = methods.map((method) =>
-      createMethodMetricDataQueryProperty(`Average_${method}`, false, {
+      createMethodMetricDataQueryProperty(`average_${method}`, false, {
         ...alarmMetricPropsWithoutMethods,
         method,
         statistics: "Average",
       })
     );
 
-    const countMethodMetrics = methods.map((method) =>
-      createMethodMetricDataQueryProperty(`SampleCount_${method}`, false, {
+    const sampleCountMethodMetrics = methods.map((method) =>
+      createMethodMetricDataQueryProperty(`sampleCount_${method}`, false, {
         ...alarmMetricPropsWithoutMethods,
         method,
         statistics: "SampleCount",
@@ -126,13 +126,13 @@ const alarmMetrics = (apiGateway: ApiGateway) => {
         id: alarmEvaluationMetricId,
         returnData: true,
         expression: `(${methods
-          .map((method) => `Average_${method} * SampleCount_${method}`)
+          .map((method) => `average_${method} * sampleCount_${method}`)
           .join(" + ")}) / (${methods
-          .map((method) => `SampleCount_${method}`)
+          .map((method) => `sampleCount_${method}`)
           .join(" + ")})`,
       },
       ...avgMethodMetrics,
-      ...countMethodMetrics,
+      ...sampleCountMethodMetrics,
     ];
 
     return { metrics, thresholdMetricId: alamThresholdMetricId };
@@ -150,10 +150,10 @@ const alarmMetrics = (apiGateway: ApiGateway) => {
         {
           id: "m",
           returnData: true,
-          expression: methods.map((m) => `count${m}`).join(" + "),
+          expression: methods.map((m) => `sampleCount_${m}`).join(" + "),
         },
         ...methods.map((m) =>
-          createMethodMetricDataQueryProperty(`count${m}`, false, {
+          createMethodMetricDataQueryProperty(`sampleCount_${m}`, false, {
             ...alarmMetricPropsWithoutMethods,
             metric: "Count",
             statistics: "SampleCount",

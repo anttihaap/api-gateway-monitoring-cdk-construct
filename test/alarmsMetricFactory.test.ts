@@ -24,16 +24,16 @@ describe("Alarm metric factory", () => {
           Match.anyValue(),
           {
             Expression:
-              "(Average_DELETE * SampleCount_DELETE + Average_GET * SampleCount_GET + Average_POST * SampleCount_POST + Average_PUT * SampleCount_PUT + Average_OPTIONS * SampleCount_OPTIONS) / (SampleCount_DELETE + SampleCount_GET + SampleCount_POST + SampleCount_PUT + SampleCount_OPTIONS)",
+              "(average_DELETE * sampleCount_DELETE + average_GET * sampleCount_GET + average_POST * sampleCount_POST + average_PUT * sampleCount_PUT + average_OPTIONS * sampleCount_OPTIONS) / (sampleCount_DELETE + sampleCount_GET + sampleCount_POST + sampleCount_PUT + sampleCount_OPTIONS)",
             Id: "m",
             ReturnData: true,
           },
           ...DEFAULT_METHODS.map((m) =>
-            createMethodMetricMatcher(`Average_${m}`, m, "Latency", "Average")
+            createMethodMetricMatcher(`average_${m}`, m, "Latency", "Average")
           ),
           ...DEFAULT_METHODS.map((m) =>
             createMethodMetricMatcher(
-              `SampleCount_${m}`,
+              `sampleCount_${m}`,
               m,
               "Latency",
               "SampleCount"
@@ -51,12 +51,12 @@ describe("Alarm metric factory", () => {
         Metrics: [
           Match.anyValue(),
           {
-            Expression: "Sum_DELETE + Sum_GET + Sum_POST + Sum_PUT + Sum_OPTIONS",
+            Expression: "sum_DELETE + sum_GET + sum_POST + sum_PUT + sum_OPTIONS",
             Id: "m",
             ReturnData: true,
           },
           ...DEFAULT_METHODS.map((m) =>
-            createMethodMetricMatcher(`Sum_${m}`, m, "Count", "Sum")
+            createMethodMetricMatcher(`sum_${m}`, m, "Count", "Sum")
           ),
         ],
       });
@@ -76,30 +76,30 @@ describe("Alarm metric factory", () => {
           Match.anyValue(),
           {
             Expression:
-              "(Average_PATCH * SampleCount_PATCH + Average_HEAD * SampleCount_HEAD) / (SampleCount_PATCH + SampleCount_HEAD)",
+              "(average_PATCH * sampleCount_PATCH + average_HEAD * sampleCount_HEAD) / (sampleCount_PATCH + sampleCount_HEAD)",
             Id: "m",
             ReturnData: true,
           },
           createMethodMetricMatcher(
-            "Average_PATCH",
+            "average_PATCH",
             "PATCH",
             "Latency",
             "Average"
           ),
           createMethodMetricMatcher(
-            "Average_HEAD",
+            "average_HEAD",
             "HEAD",
             "Latency",
             "Average"
           ),
           createMethodMetricMatcher(
-            "SampleCount_PATCH",
+            "sampleCount_PATCH",
             "PATCH",
             "Latency",
             "SampleCount"
           ),
           createMethodMetricMatcher(
-            "SampleCount_HEAD",
+            "sampleCount_HEAD",
             "HEAD",
             "Latency",
             "SampleCount"
@@ -119,12 +119,12 @@ describe("Alarm metric factory", () => {
         Metrics: [
           Match.anyValue(),
           {
-            Expression: "Sum_PATCH + Sum_HEAD",
+            Expression: "sum_PATCH + sum_HEAD",
             Id: "m",
             ReturnData: true,
           },
-          createMethodMetricMatcher(`Sum_PATCH`, "PATCH", "5XXError", "Sum"),
-          createMethodMetricMatcher(`Sum_HEAD`, "HEAD", "5XXError", "Sum"),
+          createMethodMetricMatcher(`sum_PATCH`, "PATCH", "5XXError", "Sum"),
+          createMethodMetricMatcher(`sum_HEAD`, "HEAD", "5XXError", "Sum"),
         ],
       });
     });
