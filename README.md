@@ -1,6 +1,6 @@
 # API Gateway monitoring CDK construct
 
-This library provides a facade to define AWS CloudWatch alarms to monitor metrics of the AWS API Gateway. The alarms utilizes AWS CloudWatch anomaly detection to create thresholds. Additionally, missing data point alarms can be created for a resource. This library was created as part of a master's thesis to monitor microservices non-intrusively via an API Gateway: **TBA**.
+This library provides a facade to define AWS CloudWatch alarms to monitor metrics of the AWS API Gateway. The alarms utilizes AWS CloudWatch anomaly detection to create thresholds. Additionally, missing data point alarms can be created for a resource. This library was created as part of a [master's thesis](http://urn.fi/URN:NBN:fi:hulib-202310173901) to monitor microservices non-intrusively via an API Gateway.
 
 The construct defines an interface (`ApiGatewayMonitoringProps`) to configure AWS CloudWatch alarms:
 
